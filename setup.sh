@@ -22,6 +22,25 @@ echo "                 |_____|"
 echo "========================================================================="
 echo "                                                              by gboucett"
 
+
+#starting minikube and the dashboard
+minikube start --vm-driver=docker
+minikube dashboard
+
+eval $(minikube docker-env)
+
+CLUSTER_IP=$(kubectl get node -o=custom-columns='DATA:status.addresses[0].address' | sed -n 2p)
+
+#enabling addons
+minikube addons enable ingress
+
+
+echo "Building nginx image..."
+docker build -t nginx srcs/nginx --quiet
+
+
+echo "Cluster IP : ${CLUSTER_IP}"
+
 end=`date +%s`
 total=$((end - start))
 echo "========================================================================="
