@@ -24,22 +24,21 @@ echo "                                                              by gboucett"
 
 
 #starting minikube and the dashboard
-minikube start --vm-driver=docker
-minikube dashboard
+minikube start --vm-driver=docker --extra-config=apiserver.service-node-port-range=21-32767
+
 
 eval $(minikube docker-env)
+echo "Building nginx image..."
+docker build -t custom/nginx srcs/nginx
+
+echo "Applying yaml files"
+kubectl apply -f srcs/metallb.yaml
+kubectl apply -f srcs/nginx.yaml
 
 CLUSTER_IP=$(kubectl get node -o=custom-columns='DATA:status.addresses[0].address' | sed -n 2p)
-
-#enabling addons
-minikube addons enable ingress
-
-
-echo "Building nginx image..."
-docker build -t nginx srcs/nginx --quiet
-
-
 echo "Cluster IP : ${CLUSTER_IP}"
+
+minikube dashboard &
 
 end=`date +%s`
 total=$((end - start))
