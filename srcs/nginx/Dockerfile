@@ -4,8 +4,11 @@ EXPOSE 80
 EXPOSE 443
 EXPOSE 22
 
-# Installing all requirements
-RUN apk update && apk add --no-cache nginx openrc openssl vim curl wget openssh
+# Installing all requirements and setting up supervisor and liveness
+RUN apk update && apk add --no-cache nginx openssl vim curl wget openssh supervisor
+COPY supervisor.conf /etc/supervisor/supervisor.conf
+COPY liveness.sh ./liveness.sh
+RUN chmod u+x ./liveness.sh
 
 # configuring all elements for nginx
 RUN adduser -D -g 'www' www
@@ -22,13 +25,12 @@ RUN rm /etc/ssh/sshd_config
 COPY sshd_config /etc/ssh/sshd_config
 RUN adduser gboucett -D
 RUN echo "gboucett:gboucett" | chpasswd
+RUN echo "Welcome into my nginx container :) (by gboucett)" > /etc/motd
+RUN ssh-keygen -A
 
-# configuring nginx properly
+# configuring nginx
 RUN rm /etc/nginx/nginx.conf
 COPY nginx.conf /etc/nginx/nginx.conf
 COPY index.html /www/index.html
 
-RUN openrc
-RUN touch /run/openrc/softlevel
-
-CMD /etc/init.d/sshd start ; nginx -g "daemon off;"
+CMD supervisord -c /etc/supervisor/supervisor.conf
