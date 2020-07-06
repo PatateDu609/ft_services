@@ -1,0 +1,63 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: ftps
+spec:
+  type: LoadBalancer
+  selector:
+    app: ftps
+  ports:
+  - name: ftp-server
+    port: 21
+    nodePort: 21
+  - name: ftp-data
+    port: 20
+    nodePort: 20
+  - name: ftp-pasv1
+    port: 30032
+    nodePort: 30032
+  - name: ftp-pasv2
+    port: 30033
+    nodePort: 30033
+  - name: ftp-pasv3
+    port: 30034
+    nodePort: 30034
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ftps
+spec:
+  selector:
+    matchLabels:
+      app: ftps
+  template:
+    metadata:
+      labels:
+        app: ftps
+    spec:
+      containers:
+      - name: ftps
+        image: custom/ftps
+        imagePullPolicy: Never
+        livenessProbe:
+            exec:
+              command:
+              - /bin/sh
+              - -c
+              - ./liveness.sh
+            initialDelaySeconds: 20
+            periodSeconds: 20
+        ports:
+        - name: ftp-server
+          containerPort: 21
+        - name: ftp-data
+          containerPort: 20
+        - name: ftp-pasv1
+          containerPort: 30032
+        - name: ftp-pasv2
+          containerPort: 30033
+        - name: ftp-pasv3
+          containerPort: 30034
