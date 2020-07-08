@@ -1,5 +1,7 @@
 FROM alpine:latest
 
+VOLUME [ "/home/gboucett" ]
+
 EXPOSE 21 20 30032 30033 30034
 
 # Installing all requirements and setting up supervisor and liveness
