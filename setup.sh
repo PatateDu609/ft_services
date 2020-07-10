@@ -30,17 +30,19 @@ eval $(minikube docker-env)
 
 CLUSTER_IP=$(kubectl get node -o=custom-columns='DATA:status.addresses[0].address' | sed -n 2p)
 # echo "Cluster IP : ${CLUSTER_IP}"
-# sed -Ei "s/__IP__/${CLUSTER_IP}/g" srcs/ftps/vsftpd.conf
 
 echo "Building nginx image..."
 docker build -t custom/nginx srcs/nginx --quiet
 echo "Building ftps image..."
-docker build -t custom/ftps srcs/ftps
+docker build -t custom/ftps srcs/ftps --quiet
+echo "Building mysql image..."
+docker build -t custom/mysql srcs/mysql
 
 echo "Applying yaml files"
 kubectl apply -f srcs/metallb.yaml
 kubectl apply -f srcs/nginx.yaml
 kubectl apply -f srcs/ftps.yaml
+kubectl apply -f srcs/mysql.yaml
 
 end=`date +%s`
 total=$((end - start))
