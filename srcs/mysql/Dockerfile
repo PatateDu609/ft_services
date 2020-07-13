@@ -11,6 +11,7 @@ RUN addgroup mysql mysql
 COPY my.cnf /etc/mysql/my.cnf
 COPY start.sh ./start.sh
 COPY init.sql .
+COPY wordpress.sql .
 RUN chmod u+x ./start.sh
 
 ENTRYPOINT ./start.sh

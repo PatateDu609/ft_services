@@ -38,7 +38,9 @@ docker build -t custom/ftps srcs/ftps --quiet
 echo "Building mysql image..."
 docker build -t custom/mysql srcs/mysql --quiet
 echo "Building phpmyadmin image..."
-docker build -t custom/phpmyadmin srcs/phpmyadmin
+docker build -t custom/phpmyadmin srcs/phpmyadmin --quiet
+echo "Building wordpress image..."
+docker build -t custom/wordpress srcs/wordpress
 
 echo "Applying yaml files"
 kubectl apply -f srcs/metallb.yaml
@@ -46,6 +48,7 @@ kubectl apply -f srcs/nginx.yaml
 kubectl apply -f srcs/ftps.yaml
 kubectl apply -f srcs/mysql.yaml
 kubectl apply -f srcs/phpmyadmin.yaml
+kubectl apply -f srcs/wordpress.yaml
 
 end=`date +%s`
 total=$((end - start))
