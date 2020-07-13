@@ -5,16 +5,12 @@ VOLUME [ "/var/lib/mysql" ]
 EXPOSE 3306
 
 # Installing all requirements and setting up supervisor and liveness
-RUN apk update && apk upgrade && apk add --no-cache vim mysql mysql-client supervisor
-COPY supervisor.conf /etc/supervisor/supervisor.conf
-COPY liveness.sh ./liveness.sh
-COPY my.cnf /etc/my.cnf
+RUN apk update && apk add --no-cache vim mariadb mariadb-client openrc
+RUN addgroup mysql mysql
+
+COPY my.cnf /etc/mysql/my.cnf
+COPY start.sh ./start.sh
 COPY init.sql .
-RUN chmod u+x ./liveness.sh
+RUN chmod u+x ./start.sh
 
-RUN mkdir -p /run/mysqld
-
-RUN mysql_install_db --user=root
-RUN mysqld --user=root --bootstrap < init.sql
-
-CMD supervisord -c /etc/supervisor/supervisor.conf
+ENTRYPOINT ./start.sh

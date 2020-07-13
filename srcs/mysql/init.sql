@@ -1,5 +1,4 @@
-FLUSH PRIVILEGES;
-CREATE DATABASE wordpress;
-CREATE USER gboucett IDENTIFIED BY 'gboucett';
-GRANT ALL PRIVILEGES ON wordpress.* TO 'gboucett'@'%'
+CREATE DATABASE IF NOT EXISTS wordpress;
+CREATE USER IF NOT EXISTS gboucett IDENTIFIED BY 'gboucett';
+GRANT ALL PRIVILEGES ON wordpress.* TO 'gboucett'@'%';
 FLUSH PRIVILEGES;

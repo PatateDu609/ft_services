@@ -67,9 +67,8 @@ spec:
         livenessProbe:
             exec:
               command:
-              - /bin/sh
-              - -c
-              - ./liveness.sh
+              - pgrep
+              - vsftpd
             initialDelaySeconds: 20
             periodSeconds: 20
         ports:
