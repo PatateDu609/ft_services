@@ -229,5 +229,6 @@ data:
   config: |
     address-pools:
     - name: default
-    cidr:
-    - 192.0.0.0
+      protocol: layer2
+      addresses:
+        - 172.17.0.3-172.17.0.3

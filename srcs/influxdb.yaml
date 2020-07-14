@@ -57,7 +57,7 @@ spec:
               command:
               - /bin/sh
               - -c
-              - liveness.sh
+              - ./liveness.sh
             initialDelaySeconds: 20
             periodSeconds: 20
         ports:
