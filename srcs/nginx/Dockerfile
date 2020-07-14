@@ -10,6 +10,12 @@ COPY supervisor.conf /etc/supervisor/supervisor.conf
 COPY liveness.sh ./liveness.sh
 RUN chmod u+x ./liveness.sh
 
+COPY telegraf.tar.gz .
+RUN tar -xzf telegraf.tar.gz
+
+RUN mkdir -m 755 /etc/telegraf
+COPY telegraf.conf /etc/telegraf
+
 # configuring all elements for nginx
 RUN adduser -D -g 'www' www
 RUN mkdir /www

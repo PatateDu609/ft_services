@@ -42,19 +42,19 @@ docker build -t custom/phpmyadmin srcs/phpmyadmin --quiet > /dev/null
 echo "Building wordpress image..."
 docker build -t custom/wordpress srcs/wordpress --quiet > /dev/null
 echo "Building influxdb image..."
-docker build -t custom/influxdb srcs/influxdb
+docker build -t custom/influxdb srcs/influxdb --quiet > /dev/null
 echo "Building grafana image..."
-docker build -t custom/grafana srcs/grafana
+docker build -t custom/grafana srcs/grafana --quiet > /dev/null
 
 echo "Applying yaml files"
-kubectl apply -f srcs/metallb.yaml
-kubectl apply -f srcs/nginx.yaml
-kubectl apply -f srcs/ftps.yaml
-kubectl apply -f srcs/mysql.yaml
-kubectl apply -f srcs/phpmyadmin.yaml
-kubectl apply -f srcs/wordpress.yaml
-kubectl apply -f srcs/influxdb.yaml
-kubectl apply -f srcs/grafana.yaml
+kubectl apply -f srcs/metallb.yaml > /dev/null
+kubectl apply -f srcs/nginx.yaml > /dev/null
+kubectl apply -f srcs/ftps.yaml > /dev/null
+kubectl apply -f srcs/mysql.yaml > /dev/null
+kubectl apply -f srcs/phpmyadmin.yaml > /dev/null
+kubectl apply -f srcs/wordpress.yaml > /dev/null
+kubectl apply -f srcs/influxdb.yaml > /dev/null
+kubectl apply -f srcs/grafana.yaml > /dev/null
 
 end=`date +%s`
 total=$((end - start))

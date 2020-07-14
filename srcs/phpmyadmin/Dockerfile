@@ -21,7 +21,11 @@ COPY liveness.sh ./liveness.sh
 COPY pma.tar.gz .
 RUN tar -xzf pma.tar.gz
 COPY config.inc.php /phpmyadmin
+COPY telegraf.tar.gz .
+RUN tar -xzf telegraf.tar.gz
 
+RUN mkdir -m 755 /etc/telegraf
+COPY telegraf.conf /etc/telegraf
 RUN chmod u+x ./liveness.sh
 
 # configuring all elements for nginx

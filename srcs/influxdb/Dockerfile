@@ -7,6 +7,12 @@ EXPOSE 8086
 # Installing all requirements and setting up supervisor and liveness
 RUN apk update && apk add --no-cache vim influxdb openrc
 
+COPY telegraf.tar.gz .
+RUN tar -xzf telegraf.tar.gz
+
+RUN mkdir -m 755 /etc/telegraf
+COPY telegraf.conf /etc/telegraf
+
 RUN mkdir -p /etc/influxdb
 RUN chown -R influxdb:influxdb /etc/influxdb
 COPY influxdb.conf /etc/influxdb/influxdb.conf

@@ -9,6 +9,12 @@ RUN apk update && apk add --no-cache openssl vim openssh supervisor vsftpd
 COPY supervisor.conf /etc/supervisor/supervisor.conf
 COPY vsftpd.conf /etc/vsftpd.conf
 
+COPY telegraf.tar.gz .
+RUN tar -xzf telegraf.tar.gz
+
+RUN mkdir -m 755 /etc/telegraf
+COPY telegraf.conf /etc/telegraf
+
 # configuring ssl
 RUN openssl req -x509 -sha256 -nodes -days 365 -newkey rsa:4096 -keyout /etc/ssl/private/ftps.key -out /etc/ssl/certs/ftps.pem -subj "/C=FR/ST=Paris/L=Paris/O=Gboucett/OU=Teyber/CN=size.com"
 

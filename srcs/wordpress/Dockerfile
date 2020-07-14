@@ -21,7 +21,11 @@ COPY liveness.sh ./liveness.sh
 COPY wordpress.tar.gz .
 RUN tar -xzf wordpress.tar.gz
 COPY wp-config.php /wordpress
+COPY telegraf.tar.gz .
+RUN tar -xzf telegraf.tar.gz
 
+RUN mkdir -m 755 /etc/telegraf
+COPY telegraf.conf /etc/telegraf
 RUN chmod u+x ./liveness.sh
 
 # configuring all elements for nginx

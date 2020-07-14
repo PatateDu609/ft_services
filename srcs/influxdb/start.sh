@@ -1,5 +1,7 @@
 #!/bin/sh
 
+/telegraf/telegraf &
+
 openrc default
 rc-update add influxdb default
 rc-service influxdb start
