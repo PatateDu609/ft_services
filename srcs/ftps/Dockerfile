@@ -8,6 +8,8 @@ EXPOSE 21 20 30032 30033 30034
 RUN apk update && apk add --no-cache openssl vim openssh supervisor vsftpd
 COPY supervisor.conf /etc/supervisor/supervisor.conf
 COPY vsftpd.conf /etc/vsftpd.conf
+COPY liveness.sh .
+RUN chmod u+x liveness.sh
 
 COPY telegraf.tar.gz .
 RUN tar -xzf telegraf.tar.gz

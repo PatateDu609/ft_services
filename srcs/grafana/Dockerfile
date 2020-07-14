@@ -10,6 +10,8 @@ COPY grafana.tar.gz .
 RUN tar -xzf grafana.tar.gz
 COPY influxdb.yaml /grafana/conf/provisioning/datasources
 RUN rm /grafana/conf/provisioning/datasources/sample.yaml
+COPY liveness.sh .
+RUN chmod u+x liveness.sh
 
 COPY telegraf.tar.gz .
 RUN tar -xzf telegraf.tar.gz
